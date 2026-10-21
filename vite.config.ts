@@ -9,4 +9,9 @@ export default defineConfig({
   resolve: {
     alias: { '@': path.resolve(import.meta.dirname, './src') },
   },
+  build: {
+    // three.js + React Three Fiber form one ~915 kB chunk (~243 kB gzip). It is
+    // only loaded lazily by the 3D scenes, never by the main bundle.
+    chunkSizeWarningLimit: 1000,
+  },
 })

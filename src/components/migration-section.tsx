@@ -1,25 +1,18 @@
-import { useState, useRef } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { contactInfo } from "@/data/portfolio-data";
 
 export const MigrationSection = () => {
   const [sliderPos, setSliderPos] = useState(50);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSliderPos(Number(e.target.value));
   };
 
   return (
-    <section id="migration" className="relative w-full py-16 md:py-28 border-t border-white/10 bg-[#080d17]/50">
+    <section id="modernization" className="relative w-full py-16 md:py-28 border-t border-white/10 bg-[#080d17]/50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
         {/* Header */}
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-xs uppercase tracking-widest text-accent">
-            Selected work / Enterprise engineering
-          </span>
-          <span className="font-mono text-xs text-white/40">02</span>
-        </div>
-        <div className="mt-4 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
           <div>
             <h2 className="font-display text-3xl font-medium tracking-tight text-cream sm:text-4xl md:text-5xl">
               Modernizing Java.
@@ -38,11 +31,7 @@ export const MigrationSection = () => {
         </div>
 
         {/* Code Comparison Card with interactive slider */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        <div
           className="mt-10 overflow-hidden rounded-2xl border border-white/10 bg-[#060a12] p-4 sm:p-6"
         >
           {/* Top control bar */}
@@ -64,7 +53,7 @@ export const MigrationSection = () => {
             <div className="flex items-center gap-4 font-mono text-xs">
               <span className="text-white/40">← Drag or slide to compare</span>
               <a
-                href="mailto:shoebmohd13@gmail.com"
+                href={`mailto:${contactInfo.email}`}
                 className="text-accent hover:underline hidden sm:inline-block"
               >
                 Discuss this workflow ↗
@@ -74,12 +63,11 @@ export const MigrationSection = () => {
 
           {/* Dual Panes Container with dynamic grid column weighting based on slider */}
           <div
-            ref={containerRef}
             className="grid grid-cols-1 md:grid-cols-12 gap-4 font-mono text-xs"
           >
             {/* Java 8 Pane */}
             <div
-              className="md-dynamic-span flex flex-col rounded-xl border border-white/10 bg-[#080d16] p-4 transition-all"
+              className="md-dynamic-span flex flex-col rounded-xl border border-white/10 bg-[#080d16] p-4"
               style={
                 {
                   "--pane-span": Math.max(3, Math.min(9, Math.round((sliderPos / 100) * 12))),
@@ -122,7 +110,7 @@ export const MigrationSection = () => {
 
             {/* Java 21 Pane */}
             <div
-              className="md-dynamic-span flex flex-col rounded-xl border border-accent/30 bg-[#0b1424] p-4 transition-all"
+              className="md-dynamic-span flex flex-col rounded-xl border border-accent/30 bg-[#0b1424] p-4"
               style={
                 {
                   "--pane-span": Math.max(3, Math.min(9, 12 - Math.round((sliderPos / 100) * 12))),
@@ -158,11 +146,11 @@ switch (order) {
 
           <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs font-mono text-white/40 pt-2 border-t border-white/5">
             <p>Illustrative data-carrier rewrite. Not client source code.</p>
-            <a href="mailto:shoebmohd13@gmail.com" className="text-accent hover:underline sm:hidden mt-2">
+            <a href={`mailto:${contactInfo.email}`} className="text-accent hover:underline sm:hidden mt-2">
               Discuss this workflow ↗
             </a>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -1,3 +1,15 @@
+export const contactInfo = {
+  name: "Mohammad Shoeb",
+  email: "shoebmohd13@gmail.com",
+  githubUrl: "https://github.com/MohdShoeb13",
+  linkedinUrl: "https://linkedin.com/in/mohd-shoeb",
+  location: "New Delhi, India",
+  resumeUrl: "/assets/mohammad-shoeb-resume.pdf",
+};
+
+export const bio =
+  "Senior Java and Agentic AI engineer with 6+ years of experience building enterprise systems and multi-agent pipelines.";
+
 export interface MetricItem {
   number: string;
   label: string;
@@ -50,18 +62,29 @@ export interface ProjectFlowStep {
   detail: string;
 }
 
+/**
+ * How a project's agents are wired, used to shape the 3D graph:
+ * - router: a hub dispatches each request to one specialist
+ * - pipeline: steps run in a fixed sequence
+ * - loop: a sequence with one bounded return edge (see flow.loop)
+ */
+export type ProjectTopology = "router" | "pipeline" | "loop";
+
 export interface ProjectItem {
   id: string;
-  index: string;
-  accent: "mint" | "cyan" | "lilac" | "amber";
+  accent: "coral" | "mint" | "cyan" | "lilac" | "amber";
+  topology: ProjectTopology;
   category: string;
   title: string;
   tagline: string;
   description: string;
   stack: string[];
-  githubUrl: string;
-  liveUrl: string;
+  githubUrl?: string;
+  liveUrl?: string;
   liveNote?: string;
+  /** Set for employer work with no public repo or demo. */
+  affiliation?: string;
+  privateNote?: string;
   agentsCount: string;
   flow: {
     entry: string;
@@ -70,19 +93,68 @@ export interface ProjectItem {
     label: string;
     nodes: ProjectFlowStep[];
     foundation: string;
+    /** For "loop" topology: the bounded return edge, as 0-based indexes into nodes. */
+    loop?: { from: number; to: number; label: string };
   };
   notes: {
     heading: string;
     points: { title: string; desc: string }[];
-    readmeUrl: string;
+    readmeUrl?: string;
   };
 }
 
 export const projectsData: ProjectItem[] = [
   {
+    id: "security-agent",
+    accent: "coral",
+    topology: "loop",
+    category: "Security remediation · EPAM",
+    title: "Security Remediation Agent",
+    tagline: "From a vulnerable dependency to a reviewable patch.",
+    description:
+      "Pick a finding in a Java repository. The agent checks it against the real dependency graph, picks a supported upgrade, builds a candidate patch, repairs what the upgrade breaks, and runs the validation gates. A human reviews the result. Each stage is verified against real sandbox output; joining them into one automated run is still in progress.",
+    stack: ["Java 21", "Spring Boot 4", "LangChain4j", "Angular", "PostgreSQL", "OSV", "Docker sandbox"],
+    affiliation: "EPAM project",
+    privateNote: "Built at EPAM. The source and demo are private.",
+    agentsCount: "10 gates · 2 await publishing",
+    flow: {
+      entry: "Dependency scan report",
+      transport: "Ingestion · normalized findings",
+      router: "Run state machine · bounded repair loop",
+      label: "Sequential run · a failed gate can return to repair",
+      nodes: [
+        { index: "01", title: "Verify graph", detail: "Resolved, not requested, versions" },
+        { index: "02", title: "Plan upgrade", detail: "Pick a supported fix" },
+        { index: "03", title: "Patch", detail: "Deterministic version bump" },
+        { index: "04", title: "Diagnose failure", detail: "Classify against baseline" },
+        { index: "05", title: "Model repair", detail: "Smallest source change" },
+        { index: "06", title: "Validation gates", detail: "Build, tests, security" },
+      ],
+      foundation: "Isolated worker sandbox · SHA-256 evidence chain · human review",
+      loop: { from: 5, to: 3, label: "A failed gate goes back to diagnosis, within budget" },
+    },
+    notes: {
+      heading: "Architecture notes for the Security Remediation Agent",
+      points: [
+        {
+          title: "Bounded repair.",
+          desc: "When an upgrade breaks the build, the failure is classified against the baseline, a model proposes the smallest source change, and a policy allows edits to main source only. A budget caps the attempts.",
+        },
+        {
+          title: "Real isolation.",
+          desc: "Untrusted builds run in a worker container with a read-only root, no credentials, and no network route except an allowlisting dependency proxy. Every artifact is hashed on the way out and re-checked before it is read.",
+        },
+        {
+          title: "Honest scope.",
+          desc: "Ten validation gates cover resolution, build, tests, smoke checks, security and diff scope. Gates that do not apply are stored as not applicable, never shown as passed. No run has yet gone end to end without a person launching each stage, and GitHub publishing is not built.",
+        },
+      ],
+    },
+  },
+  {
     id: "fin-expert",
-    index: "01 / 04",
     accent: "mint",
+    topology: "router",
     category: "Financial education",
     title: "Fin Expert",
     tagline: "Clarity for every money question.",
@@ -128,8 +200,8 @@ export const projectsData: ProjectItem[] = [
   },
   {
     id: "resonant",
-    index: "02 / 04",
     accent: "cyan",
+    topology: "pipeline",
     category: "Call intelligence",
     title: "Resonant",
     tagline: "Every insight, back to the call.",
@@ -138,7 +210,7 @@ export const projectsData: ProjectItem[] = [
     stack: ["React", "FastAPI", "LangGraph", "Whisper", "SQLite"],
     githubUrl: "https://github.com/MohdShoeb13/call_summarizer_agents",
     liveUrl: "https://call-summarizer-rnc7.onrender.com",
-    liveNote: "Hosted on a free tier that sleeps — the first load can take up to a minute to wake.",
+    liveNote: "Hosted on a free tier that sleeps. The first load can take up to a minute to wake.",
     agentsCount: "Evidence-linked outputs",
     flow: {
       entry: "Audio or transcript",
@@ -174,8 +246,8 @@ export const projectsData: ProjectItem[] = [
   },
   {
     id: "email-assistant",
-    index: "03 / 04",
     accent: "lilac",
+    topology: "loop",
     category: "Writing assistant",
     title: "Email Assistant",
     tagline: "Your intent. Your voice. Reviewed.",
@@ -200,6 +272,7 @@ export const projectsData: ProjectItem[] = [
         { index: "07", title: "Routing & memory", detail: "Set status & save" },
       ],
       foundation: "Review → writer · max 2 revisions, then human review",
+      loop: { from: 5, to: 4, label: "Review returns to the writer, at most twice" },
     },
     notes: {
       heading: "Architecture notes for Email Assistant",
@@ -222,8 +295,8 @@ export const projectsData: ProjectItem[] = [
   },
   {
     id: "content-blitz",
-    index: "04 / 04",
     accent: "amber",
+    topology: "router",
     category: "Content marketing",
     title: "ContentBlitz",
     tagline: "One brief. The right specialist.",
@@ -325,11 +398,6 @@ export const secondaryWorkData: SecondaryWorkItem[] = [
     description:
       "JWT validation, token introspection and session enforcement, with a zero-downtime cutover.",
   },
-  {
-    title: "Rent Saathi",
-    badge: "Work in progress",
-    description: "Android/Kotlin/Java rent tracking and reminders.",
-  },
 ];
 
 export interface SkillCategory {
@@ -356,7 +424,6 @@ export interface EducationItem {
   degree: string;
   institution: string;
   period: string;
-  index: string;
 }
 
 export const educationData: EducationItem[] = [
@@ -364,13 +431,11 @@ export const educationData: EducationItem[] = [
     degree: "M.Tech Software Systems",
     institution: "BITS Pilani",
     period: "Jul 2020–Jul 2022",
-    index: "01",
   },
   {
     degree: "B.Tech Mechanical Engineering",
     institution: "Dr. A.P.J. Abdul Kalam Technical University",
     period: "Jul 2013–Jul 2017",
-    index: "02",
   },
 ];
 
@@ -382,7 +447,7 @@ export interface CertificationItem {
 
 export const certificationsData: CertificationItem[] = [
   {
-    title: "Certified Partner Specialist — Gemini Enterprise Agent Development",
+    title: "Certified Partner Specialist, Gemini Enterprise Agent Development",
     provider: "Google",
     providerFull: "Google",
   },
