@@ -1,6 +1,7 @@
 name: CI & Deploy to Vercel
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
