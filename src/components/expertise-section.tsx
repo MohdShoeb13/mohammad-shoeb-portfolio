@@ -1,119 +1,81 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Award } from "lucide-react";
-import { skillCategoriesData, educationData, certificationsData } from "@/data/portfolio-data";
+import {
+  certificationCount,
+  certificationsData,
+  educationData,
+  skillCategoriesData,
+} from "@/data/portfolio-data";
 import { ProviderIcon } from "@/components/ui/provider-icon";
 
+// The toolkit, still on paper: a table to scan, not a wall of chips.
 export const ExpertiseSection = () => {
-  const [certsOpen, setCertsOpen] = useState(true);
-
   return (
-    <section id="expertise" className="relative w-full py-16 md:py-28 border-t border-white/10">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
-        <h2 className="font-display text-3xl font-medium tracking-tight text-cream sm:text-4xl md:text-5xl">
+    <section id="expertise" className="relative w-full border-t border-ink/25 py-20 md:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-10">
+        <h2 className="statement m-0 text-[clamp(36px,5.6vw,84px)] text-ink">
           AI-native thinking.
           <br />
           Enterprise engineering depth.
         </h2>
 
-        {/* 3 Skill Pillars */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Skills */}
+        <dl className="m-0 mt-14 md:mt-20">
           {skillCategoriesData.map((category) => (
             <div
               key={category.title}
-              className="rounded-xl border border-white/10 bg-[#090e18]/60 p-6 backdrop-blur-xs"
+              className="grid grid-cols-1 gap-1 border-t border-ink/25 py-4 sm:grid-cols-12 sm:gap-6 sm:py-5"
             >
-              <h3 className="font-display text-lg font-medium text-cream border-b border-white/10 pb-3">
+              <dt className="text-base font-semibold text-ink sm:col-span-4 lg:col-span-3">
                 {category.title}
-              </h3>
-              <ul className="mt-4 flex flex-wrap gap-2">
-                {category.skills.map((skill) => (
-                  <li
-                    key={skill}
-                    className="rounded-md border border-white/10 bg-white/5 px-3 py-1 font-mono text-xs text-cream/90"
-                  >
-                    {skill}
-                  </li>
-                ))}
-              </ul>
+              </dt>
+              <dd className="m-0 text-base leading-relaxed text-ink/85 sm:col-span-8 lg:col-span-9">
+                {category.skills.join(", ")}
+              </dd>
             </div>
           ))}
-        </div>
+        </dl>
 
-        {/* Education Timeline */}
-        <div className="mt-16 border-t border-white/10 pt-12">
-          <h3 className="mb-6 font-display text-lg font-medium text-cream">Education</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {educationData.map((edu) => (
-              <div
-                key={edu.degree}
-                className="flex flex-col justify-between rounded-xl border border-white/10 bg-white/5 p-6"
-              >
-                <div>
-                  <h4 className="font-display text-lg font-medium text-cream">
-                    {edu.degree}
-                  </h4>
-                  <p className="mt-1 text-sm text-white/70">{edu.institution}</p>
-                </div>
-                <span className="mt-4 font-mono text-xs text-white/40">{edu.period}</span>
-              </div>
-            ))}
+        <div className="mt-16 grid grid-cols-1 gap-14 md:mt-24 lg:grid-cols-12 lg:gap-10">
+          {/* Education */}
+          <div className="lg:col-span-5">
+            <h3 className="statement m-0 text-3xl text-ink sm:text-4xl">Education</h3>
+            <ul className="m-0 mt-6 list-none p-0">
+              {educationData.map((edu) => (
+                <li key={edu.degree} className="border-t border-ink/25 py-5">
+                  <p className="m-0 text-lg font-semibold text-ink">{edu.degree}</p>
+                  <p className="m-0 mt-1 text-base text-ink/80">{edu.institution}</p>
+                  <p className="m-0 mt-2 font-mono text-xs text-ink/60">{edu.period}</p>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
 
-        {/* Certifications Drawer Accordion with Official Provider Icons */}
-        <div className="mt-12 rounded-xl border border-white/10 bg-[#070b14] p-5 sm:p-6">
-          <button
-            type="button"
-            onClick={() => setCertsOpen(!certsOpen)}
-            className="flex w-full items-center justify-between rounded-sm text-left font-mono text-xs sm:text-sm text-cream hover:text-accent transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
-            aria-expanded={certsOpen}
-            aria-controls="certifications-list"
-          >
-            <div className="flex items-center gap-2">
-              <Award className="h-4 w-4 text-accent" />
-              <span>Certifications listed in my resume ({certificationsData.length})</span>
-            </div>
-            <ChevronDown
-              className={`h-4 w-4 transition-transform duration-200 ${
-                certsOpen ? "rotate-180 text-accent" : "text-white/40"
-              }`}
-            />
-          </button>
-
-          <AnimatePresence initial={false}>
-            {certsOpen && (
-              <motion.div
-                id="certifications-list"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
-              >
-                <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3.5 border-t border-white/10 pt-5">
-                  {certificationsData.map((cert) => (
-                    <div
-                      key={cert.title}
-                      className="flex items-start gap-3.5 rounded-lg border border-white/10 bg-white/5 p-3.5"
-                    >
-                      <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-black/50 p-1 border border-white/10">
-                        <ProviderIcon provider={cert.provider} className="h-4 w-4" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-xs font-medium text-cream leading-snug">
-                          {cert.title}
-                        </span>
-                        <span className="mt-1 font-mono text-[11px] text-accent/80">
-                          {cert.providerFull}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* Certifications, grouped by who issued them */}
+          <div className="lg:col-span-7">
+            <h3 className="statement m-0 text-3xl text-ink sm:text-4xl">
+              Certifications
+              <span className="ml-3 align-middle font-mono text-sm tracking-normal text-ink/60">
+                {certificationCount}
+              </span>
+            </h3>
+            <ul className="m-0 mt-6 list-none p-0">
+              {certificationsData.map((group) => (
+                <li
+                  key={group.provider}
+                  className="grid grid-cols-12 gap-4 border-t border-ink/25 py-5"
+                >
+                  <div className="col-span-12 flex items-center gap-2.5 text-ink sm:col-span-4">
+                    <ProviderIcon provider={group.provider} className="h-4 w-4 shrink-0" />
+                    <span className="text-base font-semibold">{group.providerFull}</span>
+                  </div>
+                  <ul className="col-span-12 m-0 list-none space-y-1.5 p-0 text-base leading-snug text-ink/85 sm:col-span-8">
+                    {group.titles.map((title) => (
+                      <li key={title}>{title}</li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>

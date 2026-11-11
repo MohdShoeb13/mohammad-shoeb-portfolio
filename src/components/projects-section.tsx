@@ -53,24 +53,24 @@ export const ProjectsSection = () => {
   const count = countWords[projectsData.length] ?? String(projectsData.length);
 
   return (
-    <section id="work" className="relative w-full py-16 md:py-28">
+    <section id="work" className="relative w-full py-20 md:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
         {/* Section header */}
         <div className="flex flex-col gap-6 border-b border-white/10 pb-8 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <h2 className="font-display text-3xl font-medium tracking-tight text-cream sm:text-4xl md:text-5xl">
+            <h2 className="statement m-0 text-[clamp(36px,5.6vw,84px)] text-cream">
               Different problems.
               <br />
               Purpose-built agents.
             </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/70 sm:text-base">
+            <p className="mt-6 max-w-[58ch] text-base leading-relaxed text-white/70 sm:text-lg">
               {count} projects, from security remediation at EPAM to financial education and
               creative work. The graph takes the shape of each system as you read about it.
             </p>
           </div>
 
           {/* Jump chips: hovering or focusing one previews its graph */}
-          <nav aria-label="Jump to a project" className="flex flex-wrap gap-2">
+          <nav aria-label="Jump to a project" className="flex flex-wrap gap-2 lg:max-w-sm lg:justify-end">
             {projectsData.map((project) => (
               <a
                 key={project.id}

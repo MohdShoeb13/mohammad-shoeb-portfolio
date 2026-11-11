@@ -1,6 +1,6 @@
 import { SiteNav } from "@/components/site-nav";
 import { PrismaHero } from "@/components/ui/prisma-hero";
-import { MetricsSection } from "@/components/metrics-section";
+import { IntroSection } from "@/components/intro-section";
 import { ProjectsSection } from "@/components/projects-section";
 import { MigrationSection } from "@/components/migration-section";
 import { ExperienceSection } from "@/components/experience-section";
@@ -9,9 +9,13 @@ import { ExpertiseSection } from "@/components/expertise-section";
 import { ContactSection } from "@/components/contact-section";
 import { Footer } from "@/components/footer";
 
+/*
+ * The page travels through two grounds. Night holds the live systems: hero, work,
+ * method. Paper holds the record: outcomes, roles, toolkit. Night returns for contact.
+ */
 export default function App() {
   return (
-    <div className="relative min-h-screen w-full bg-canvas text-cream selection:bg-accent/30 selection:text-white">
+    <div id="top" className="relative min-h-screen w-full bg-canvas text-cream selection:bg-accent/30 selection:text-white">
       {/* Fixed navigation, scroll progress and skip link */}
       <SiteNav />
 
@@ -19,29 +23,29 @@ export default function App() {
       <PrismaHero />
 
       <main id="main" tabIndex={-1} className="relative z-10 w-full outline-none">
-        {/* 2. Key Metrics & Tech Marquee */}
-        <MetricsSection />
+        {/* 2. Opening statement, quick facts and the technology ribbon */}
+        <IntroSection />
 
         {/* 3. Featured work and the 3D architecture graph */}
         <ProjectsSection />
 
-        {/* 4. Java Modernization & Workflow Architecture */}
+        {/* 4. How the Java migration system works */}
         <MigrationSection />
 
-        {/* 5. Experience, 2019 to present */}
-        <ExperienceSection />
-
-        {/* 6. Secondary Work */}
+        {/* 5. Two smaller builds */}
         <SecondaryWorkSection />
 
-        {/* 7. Expertise, Education & Certifications */}
-        <ExpertiseSection />
+        {/* 6 and 7. The record, on paper: a sheet inset like the hero stage */}
+        <div className="paper-grain relative mx-2.5 rounded-2xl bg-paper text-ink selection:bg-cobalt/20 selection:text-ink sm:mx-3 md:mx-4 md:rounded-[2rem]">
+          <ExperienceSection />
+          <ExpertiseSection />
+        </div>
 
-        {/* 8. Contact & Interactive CLI Terminal */}
+        {/* 8. Contact and the terminal */}
         <ContactSection />
       </main>
 
-      {/* 9. Minimal Footer */}
+      {/* 9. Footer */}
       <Footer />
     </div>
   );

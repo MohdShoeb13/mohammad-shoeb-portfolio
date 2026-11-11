@@ -7,6 +7,13 @@ The page opens on a cinematic video with a faint 3D network over it. Its centrep
 the Work section: a live 3D graph that takes the shape of each project's architecture
 (a router, a pipeline, or a loop) as you scroll through the project cards.
 
+The page uses two grounds. Night (dark) holds the live systems: hero, statement, work,
+method. Paper (warm stone) holds the record: outcomes, roles, skills and certifications,
+set as a ledger with hairline rules instead of cards. Night returns for contact.
+
+Three type voices: Fraunces (serif) for statements and big figures, IBM Plex Sans for
+structure, IBM Plex Mono for data such as dates and stacks.
+
 ## Stack
 
 - React 19, TypeScript, Vite
@@ -29,12 +36,14 @@ npm run preview   # serve the production build
 
 | Path | What it holds |
 |---|---|
-| `src/data/portfolio-data.ts` | All page content: contact details, metrics, projects, experience, skills, education, certifications |
-| `src/App.tsx` | Section order |
+| `src/data/portfolio-data.ts` | All page content: contact details, hero line, opening statement, metrics, projects, migration stages, experience, skills, education, certifications |
+| `src/App.tsx` | Section order, and the paper sheet that wraps Experience and Expertise |
 | `src/components/site-nav.tsx` | Fixed nav, active-section highlight, scroll progress bar, skip link |
 | `src/components/ui/prisma-hero.tsx` | Hero: video, 3D overlay, name |
 | `src/components/projects-section.tsx` | Work section: pinned graph and project cards |
 | `src/components/three/` | 3D scenes (`hero-network`, `agent-graph`), the shared `graph-layout`, and the SVG fallback |
+| `src/components/intro-section.tsx` | Opening statement (brightens word by word on scroll), quick facts, technology ribbon |
+| `src/components/metrics-section.tsx` | `OutcomesLedger`, the figures at the top of the Experience section |
 | `src/components/*-section.tsx` | The other sections |
 | `src/lib/motion.ts` | Shared easing and hooks: `useCanRender3D`, `useInViewport` |
 | `public/assets/` | Hero video (desktop and mobile cuts), poster, resume PDF |

@@ -1,10 +1,19 @@
 @import 'tailwindcss';
 
+/*
+ * Two grounds. Night holds the live systems (hero, work, method, contact).
+ * Paper holds the record (outcomes, roles, toolkit), set like a ledger.
+ * Three voices: serif for statements, sans for structure, mono for data.
+ */
 @theme {
   --color-cream: #e1e0cc;
   --color-canvas: #080b12;
   --color-accent: #86aeff;
+  --color-paper: #e6e3d2;
+  --color-ink: #0a0d15;
+  --color-cobalt: #1f46c4;
   --font-display: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-serif: 'Fraunces', 'Iowan Old Style', Georgia, serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 }
 
@@ -23,9 +32,31 @@
   }
 }
 
+/* Statement type: large optical size, light weight, tight leading. */
+.statement {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-variation-settings: 'opsz' 144;
+  letter-spacing: -0.022em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
 /* Noise texture overlay */
 .noise-overlay {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* The paper act: a faint grain so the ground reads as stock, not a flat fill. */
+.paper-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.52 0 0 0 0 0.42 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23p)'/%3E%3C/svg%3E");
 }
 
 /* Marquee infinite scroll animation */
@@ -39,7 +70,7 @@
 }
 
 .animate-ticker {
-  animation: ticker 32s linear infinite;
+  animation: ticker 48s linear infinite;
 }
 
 .animate-ticker:hover {
@@ -77,11 +108,5 @@
   .flow-pulse {
     animation: none;
     opacity: 0;
-  }
-}
-
-@media (min-width: 768px) {
-  .md-dynamic-span {
-    grid-column: span var(--pane-span, 6) / span var(--pane-span, 6);
   }
 }
