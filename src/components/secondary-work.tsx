@@ -1,33 +1,31 @@
 import { secondaryWorkData } from "@/data/portfolio-data";
 
+// Two smaller builds with no public repo. Rows, not cards: they support the Work section.
 export const SecondaryWorkSection = () => {
-  const single = secondaryWorkData.length === 1;
-
   return (
-    <section id="more-work" className="relative w-full py-16 md:py-24 border-t border-white/10 bg-[#070b14]/50">
+    <section id="more-work" className="relative w-full border-t border-white/10 py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
-        <h2 className="font-display text-2xl sm:text-3xl font-medium tracking-tight text-cream">
-          More things I've built.
-        </h2>
+        <h2 className="statement m-0 text-[clamp(32px,4.4vw,64px)] text-cream">Also built.</h2>
 
-        <div className={`mt-8 grid grid-cols-1 gap-6 ${single ? "" : "md:grid-cols-2"}`}>
+        <ul className="m-0 mt-10 list-none p-0">
           {secondaryWorkData.map((item) => (
-            <div
+            <li
               key={item.title}
-              className={`flex flex-col gap-3 rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-xs ${
-                single ? "md:flex-row md:items-center md:justify-between md:gap-10" : ""
-              }`}
+              className="grid grid-cols-1 gap-4 border-t border-white/15 py-8 md:grid-cols-12 md:gap-10"
             >
-              <div className="flex items-center gap-3">
-                <h3 className="font-display text-lg font-medium text-cream">{item.title}</h3>
-                <span className="font-mono text-[11px] rounded-full border border-white/10 px-2.5 py-0.5 text-white/60">
-                  {item.badge}
-                </span>
+              <div className="md:col-span-4">
+                <h3 className="m-0 text-xl font-medium text-cream sm:text-2xl">{item.title}</h3>
+                <p className="m-0 mt-2 font-mono text-xs text-white/55">{item.badge}</p>
               </div>
-              <p className="max-w-[60ch] text-sm text-white/70 leading-relaxed">{item.description}</p>
-            </div>
+              <div className="md:col-span-8">
+                <p className="m-0 max-w-[64ch] text-base leading-relaxed text-white/75">
+                  {item.description}
+                </p>
+                <p className="m-0 mt-4 font-mono text-xs text-accent/85">{item.stack.join(", ")}</p>
+              </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

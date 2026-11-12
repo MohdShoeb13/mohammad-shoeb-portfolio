@@ -1,17 +1,29 @@
 import { useEffect, useRef, useState } from "react";
 import { Copy, Check, Terminal, Download, ExternalLink, X } from "lucide-react";
-import { bio, contactInfo, projectsData, skillCategoriesData } from "@/data/portfolio-data";
+import {
+  bio,
+  certificationsData,
+  contactInfo,
+  experienceData,
+  projectsData,
+  skillCategoriesData,
+} from "@/data/portfolio-data";
 
 type CopyState = "idle" | "copied" | "failed";
 
 const greeting = [
-  `${contactInfo.name} portfolio interactive shell v1.1`,
+  `${contactInfo.name} portfolio interactive shell v1.2`,
   "Type 'help' to see available commands.",
 ];
 
 // Every answer comes from the data file, so the shell never drifts from the page.
 const commands: Record<string, () => string[]> = {
-  help: () => ["Available commands: bio, skills, projects, contact, resume, clear, exit"],
+  help: () => ["Available commands: bio, experience, skills, projects, certs, contact, resume, clear, exit"],
+  experience: () =>
+    experienceData.map(
+      (r) => `${r.period}: ${r.title}, ${r.company}${r.client ? ` (for ${r.client})` : ""}`,
+    ),
+  certs: () => certificationsData.map((g) => `${g.providerFull}: ${g.titles.join("; ")}`),
   bio: () => [bio],
   skills: () => skillCategoriesData.map((c) => `${c.title}: ${c.skills.join(", ")}`),
   projects: () => projectsData.map((p, i) => `${i + 1}. ${p.title} (${p.category})`),
@@ -80,17 +92,17 @@ export const ContactSection = () => {
   return (
     <section
       id="contact"
-      className="relative flex min-h-svh w-full flex-col justify-center border-t border-white/10 py-20 md:py-32"
+      className="relative flex min-h-svh w-full flex-col justify-center py-20 md:py-32"
     >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-8">
         <p className="text-sm text-accent">Good systems start with a conversation.</p>
-        <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-cream sm:text-6xl md:text-7xl">
+        <h2 className="statement mt-4 mb-0 text-[clamp(48px,9vw,136px)] text-cream">
           Let's build something
           <br />
           that works.
         </h2>
-        <p className="mt-4 max-w-xl text-base text-white/70">
-          Agentic workflows. Enterprise software. A considered approach to both.
+        <p className="mt-6 max-w-[52ch] text-base leading-relaxed text-white/70 sm:text-lg">
+          Tell me about the agent you want to trust, or the Java system you want to modernize.
         </p>
 
         {/* 1-click email copy widget */}
@@ -207,7 +219,7 @@ export const ContactSection = () => {
                   type="text"
                   value={inputVal}
                   onChange={(e) => setInputVal(e.target.value)}
-                  placeholder="type 'help', 'skills', or 'projects'"
+                  placeholder="type 'help', 'experience', or 'projects'"
                   autoComplete="off"
                   spellCheck={false}
                   className="flex-1 bg-transparent text-cream placeholder-white/30 outline-none"

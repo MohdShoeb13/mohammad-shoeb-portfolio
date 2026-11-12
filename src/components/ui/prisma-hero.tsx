@@ -2,7 +2,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
 import { ArrowRight } from "lucide-react";
 import { Suspense, lazy, useEffect, useRef } from "react";
 import { WordsPullUp } from "@/components/ui/words-pull-up";
-import { contactInfo } from "@/data/portfolio-data";
+import { contactInfo, heroLede } from "@/data/portfolio-data";
 import { EASE_OUT, useCanRender3D, useInViewport } from "@/lib/motion";
 
 // Lazy, so three.js loads in its own chunk and never blocks first paint.
@@ -105,22 +105,29 @@ export const PrismaHero = () => {
             <div className="col-span-12 flex flex-col gap-4 pb-2 lg:col-span-4 lg:pb-4">
               <motion.p
                 {...rise(0.5)}
-                className="m-0 max-w-[44ch] text-xs leading-[1.5] text-cream/80 sm:text-sm md:text-base font-normal"
+                className="m-0 max-w-[40ch] text-sm leading-[1.5] font-normal text-cream/85 sm:text-base md:text-lg"
               >
-                Agentic AI Engineer and Senior Java Full Stack Developer building
-                multi-agent workflows and secure enterprise software.
+                {heroLede}
               </motion.p>
 
-              <motion.a
-                {...rise(0.7)}
-                href="#work"
-                className="group bg-cream focus-visible:outline-cream inline-flex items-center gap-2 self-start rounded-full py-1 pr-1 pl-5 text-sm font-medium text-black no-underline transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 sm:text-base"
-              >
-                Explore my work
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-black transition-transform group-hover:translate-x-0.5 sm:h-10 sm:w-10">
-                  <ArrowRight className="text-cream h-4 w-4" />
-                </span>
-              </motion.a>
+              <motion.div {...rise(0.7)} className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                <a
+                  href="#work"
+                  className="group bg-cream focus-visible:outline-cream inline-flex items-center gap-2 rounded-full py-1 pr-1 pl-5 text-sm font-medium text-black no-underline transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 sm:text-base"
+                >
+                  See the work
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-black transition-transform group-hover:translate-x-0.5 sm:h-10 sm:w-10">
+                    <ArrowRight className="text-cream h-4 w-4" aria-hidden="true" />
+                  </span>
+                </a>
+                <a
+                  href={contactInfo.resumeUrl}
+                  download
+                  className="focus-visible:outline-cream rounded-sm text-sm font-medium text-cream underline decoration-cream/40 underline-offset-[6px] transition-colors hover:decoration-cream focus-visible:outline-2 focus-visible:outline-offset-4 sm:text-base"
+                >
+                  Download CV
+                </a>
+              </motion.div>
             </div>
           </div>
         </motion.div>

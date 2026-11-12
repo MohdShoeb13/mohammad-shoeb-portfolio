@@ -1,48 +1,53 @@
-import { SiteNav } from "@/components/site-nav";
-import { PrismaHero } from "@/components/ui/prisma-hero";
-import { MetricsSection } from "@/components/metrics-section";
-import { ProjectsSection } from "@/components/projects-section";
-import { MigrationSection } from "@/components/migration-section";
+import { Header, Loader, SideIndex } from "@/components/two-sides/chrome";
+import { IntroStory } from "@/components/two-sides/story";
+import {
+  BackSection,
+  ChooseSection,
+  FinaleSection,
+  FrontSection,
+  ProfileSection,
+  SiteFooter,
+} from "@/components/two-sides/sections";
 import { ExperienceSection } from "@/components/experience-section";
-import { SecondaryWorkSection } from "@/components/secondary-work";
 import { ExpertiseSection } from "@/components/expertise-section";
-import { ContactSection } from "@/components/contact-section";
-import { Footer } from "@/components/footer";
 
+/*
+ * A page with two sides. Paper is the front, what people see. Night is the back,
+ * what keeps it running. The story at the top sets that up, and every section
+ * after it belongs to one side or stands on the line between them.
+ */
 export default function App() {
   return (
-    <div className="relative min-h-screen w-full bg-canvas text-cream selection:bg-accent/30 selection:text-white">
-      {/* Fixed navigation, scroll progress and skip link */}
-      <SiteNav />
+    <div className="relative min-h-screen w-full bg-paper text-ink selection:bg-front/25">
+      <Loader />
+      <Header />
+      <SideIndex />
 
-      {/* 1. Hero: video, loose 3D agent network, name */}
-      <PrismaHero />
+      <main id="main" tabIndex={-1} className="relative w-full outline-none">
+        {/* 01. The story: every system has two sides */}
+        <IntroStory />
 
-      <main id="main" tabIndex={-1} className="relative z-10 w-full outline-none">
-        {/* 2. Key Metrics & Tech Marquee */}
-        <MetricsSection />
+        {/* 02. The front: projects, as a row of screens */}
+        <FrontSection />
 
-        {/* 3. Featured work and the 3D architecture graph */}
-        <ProjectsSection />
+        {/* 03. The back: the systems behind them */}
+        <BackSection />
 
-        {/* 4. Java Modernization & Workflow Architecture */}
-        <MigrationSection />
+        {/* 04. Who builds both, then the record on paper */}
+        <ProfileSection />
+        <div className="paper-grain relative bg-paper text-ink">
+          <ExperienceSection />
+          <ExpertiseSection />
+        </div>
 
-        {/* 5. Experience, 2019 to present */}
-        <ExperienceSection />
+        {/* 05. Pick a kind of work */}
+        <ChooseSection />
 
-        {/* 6. Secondary Work */}
-        <SecondaryWorkSection />
-
-        {/* 7. Expertise, Education & Certifications */}
-        <ExpertiseSection />
-
-        {/* 8. Contact & Interactive CLI Terminal */}
-        <ContactSection />
+        {/* 06. Both sides, and how to get in touch */}
+        <FinaleSection />
       </main>
 
-      {/* 9. Minimal Footer */}
-      <Footer />
+      <SiteFooter />
     </div>
   );
 }

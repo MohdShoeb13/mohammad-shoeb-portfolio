@@ -8,7 +8,26 @@ export const contactInfo = {
 };
 
 export const bio =
-  "Senior Java and Agentic AI engineer with 6+ years of experience building enterprise systems and multi-agent pipelines.";
+  "Senior Java and Agentic AI engineer with 7+ years building event-driven systems for global financial institutions, and the agent tooling that now modernizes them.";
+
+/** The hero line under the name. */
+export const heroLede =
+  "Agentic AI engineer and senior Java developer. I build multi-agent systems, and the secure enterprise software they run on.";
+
+/** The opening statement, revealed word by word on scroll. */
+export const statement =
+  "Seven years of building Java systems for banks and asset managers taught me one habit: software earns trust when someone can check it. I bring that habit to AI agents. Loops with a limit. Answers with a source. Gates a person can read.";
+
+export interface FactItem {
+  label: string;
+  value: string;
+}
+
+export const quickFacts: FactItem[] = [
+  { label: "Now", value: "Senior Software Engineer at EPAM Systems, building agentic tooling with Claude Code and MCP." },
+  { label: "Before", value: "Publicis Sapient for Wellington Management, and Capgemini for Mitsubishi UFJ Financial Group." },
+  { label: "Based in", value: "New Delhi, India. M.Tech in Software Systems from BITS Pilani." },
+];
 
 export interface MetricItem {
   number: string;
@@ -19,40 +38,50 @@ export interface MetricItem {
 export const metricsData: MetricItem[] = [
   {
     number: "40%",
-    label: "Less boilerplate authoring time",
-    source: "EPAM developer tooling",
-  },
-  {
-    number: "2×",
-    label: "Faster test scaffolding",
-    source: "EPAM developer tooling",
+    label: "Less time writing boilerplate, after the team adopted multi-agent tooling",
+    source: "EPAM Systems",
   },
   {
     number: "40+",
-    label: "Critical/high CVEs resolved",
-    source: "EPAM security gates",
+    label: "Critical and high CVEs resolved through Snyk security gates",
+    source: "EPAM Systems",
+  },
+  {
+    number: "35%",
+    label: "Fewer authentication support incidents after the move to OAuth 2.0 and JWT",
+    source: "EPAM Systems",
   },
   {
     number: "99.9%",
-    label: "Uptime across production services",
-    source: "Publicis Sapient",
+    label: "Uptime across six production applications on AWS",
+    source: "Publicis Sapient, for Wellington Management",
+  },
+  {
+    number: "3 days to 4 hours",
+    label: "Setup time for a new financial instrument",
+    source: "Publicis Sapient, for Wellington Management",
+  },
+  {
+    number: "60%",
+    label: "Faster outage detection across 20+ monitored services",
+    source: "Publicis Sapient, for Wellington Management",
   },
 ];
 
 export const tickerTechnologies = [
-  "LangGraph",
-  "FastAPI",
-  "React",
+  "Java 21",
   "Spring Boot",
   "Kafka",
+  "LangGraph",
+  "Claude Code",
   "MCP",
   "RAG",
-  "Java 21",
-  "Python",
+  "FastAPI",
+  "React",
   "TypeScript",
-  "Docker",
-  "Kubernetes",
+  "Python",
   "AWS",
+  "Kubernetes",
   "OAuth 2.0",
 ];
 
@@ -343,45 +372,55 @@ export const projectsData: ProjectItem[] = [
 
 export interface ExperienceRole {
   company: string;
+  /** The end client, where the work was done for one. */
+  client?: string;
   period: string;
+  location: string;
   title: string;
+  /** A short note under the title, such as promotions. */
+  note?: string;
   highlights: string[];
-  details: string;
 }
 
 export const experienceData: ExperienceRole[] = [
   {
     company: "EPAM Systems",
-    period: "Feb 2024–Present",
-    title: "Senior Software Engineer, Agentic AI & Java Full Stack",
+    period: "Feb 2024 to now",
+    location: "Gurugram, remote",
+    title: "Senior Software Engineer, Java and Agentic AI",
     highlights: [
-      "Built agentic migration workflows and multi-agent developer tooling.",
-      "Modernized OAuth 2.0/JWT authentication across 8+ services.",
+      "Built an agentic Java 8 to Java 21 migration system with Claude Code and MCP servers. Agents run dependency analysis, refactoring, build updates and regression validation.",
+      "Led the move from legacy session tokens to OAuth 2.0 and JWT across 8+ services. It removed session-fixation vulnerabilities and cut authentication support incidents by 35%.",
+      "Built the Nginx (njs) gateway that validates JWTs, and cut over with zero downtime.",
+      "Moved 12+ CI/CD pipelines to GitHub Actions: 30% more reliable, 18 minutes off each build. Snyk gates resolved 40+ critical and high CVEs and halved security review time.",
+      "Built multi-agent developer tooling and drove team adoption. Boilerplate time fell 40% and test scaffolding became twice as fast.",
     ],
-    details:
-      "Designed an Nginx njs gateway. Migrated 12+ CI/CD pipelines, with a 30% reliability gain and 18 minutes off build time.",
   },
   {
     company: "Publicis Sapient",
-    period: "Sep 2021–Feb 2024",
+    client: "Wellington Management",
+    period: "Sep 2021 to Jan 2024",
+    location: "Gurugram",
     title: "Associate Technology, Java Full Stack",
     highlights: [
-      "Built Kafka-based financial systems for derivatives trading data.",
-      "Delivered six React/Spring Boot applications on AWS.",
+      "Designed decoupled microservices on Apache Kafka for event-driven processing of derivatives trading data.",
+      "Built six greenfield applications with Spring Boot and React on AWS, holding 99.9% uptime in production.",
+      "Built a live health dashboard for 20+ services that cut mean time to detect an outage by 60%.",
+      "Built a data-driven React framework for instrument setup. Configuration time fell from 3 days to under 4 hours.",
     ],
-    details:
-      "Reduced instrument setup from 3 days to under 4 hours. Monitored 20+ services and lowered mean time to detection by 60%.",
   },
   {
     company: "Capgemini",
-    period: "Jun 2019–Sep 2021",
+    client: "Mitsubishi UFJ Financial Group",
+    period: "Jun 2019 to Sep 2021",
+    location: "Pune",
     title: "Software Engineer, Java Full Stack",
+    note: "Promoted twice: Senior Software Engineer in 2020, Associate Consultant in 2021.",
     highlights: [
-      "Extended Fenergo financial onboarding workflows.",
-      "Built Angular trade-finance screens and product workflows.",
+      "Extended the Fenergo client-lifecycle platform with 50+ field configurations and validation rules, covering 15+ onboarding jurisdictions in APAC and EMEA.",
+      "Built trade-finance screens in Angular: eight product workflows that process 500+ transactions a month.",
+      "Managed lookup tables and validation for 30+ regulated data entities, with zero data-quality incidents in production.",
     ],
-    details:
-      "Delivered 50+ field configurations across 15+ jurisdictions, and eight workflows handling 500+ trade transactions per month.",
   },
 ];
 
@@ -389,14 +428,23 @@ export interface SecondaryWorkItem {
   title: string;
   badge: string;
   description: string;
+  stack: string[];
 }
 
 export const secondaryWorkData: SecondaryWorkItem[] = [
   {
-    title: "Nginx JWT Gateway",
-    badge: "Enterprise work",
+    title: "Nginx JWT gateway",
+    badge: "EPAM, private",
     description:
-      "JWT validation, token introspection and session enforcement, with a zero-downtime cutover.",
+      "One gateway in front of 8+ services. It validates JWTs, introspects tokens and enforces sessions, so each service stops carrying its own auth code. Cut over with zero downtime.",
+    stack: ["Nginx njs", "OAuth 2.0", "JWT"],
+  },
+  {
+    title: "JARVIS, a second brain",
+    badge: "Personal, private",
+    description:
+      "A knowledge base that compiles each source into a linked wiki once, then answers from it. Python tools lint it, grade its retrieval and flag when a habit starts to drift. The career facts on this page were checked against it.",
+    stack: ["Obsidian", "Python", "Claude Code", "React", "Electron"],
   },
 ];
 
@@ -407,16 +455,28 @@ export interface SkillCategory {
 
 export const skillCategoriesData: SkillCategory[] = [
   {
-    title: "Agentic systems",
-    skills: ["LangGraph", "LangChain", "MCP", "RAG", "LLM tool calling", "LoRA/QLoRA"],
+    title: "Languages",
+    skills: ["Java 8 to 21", "Python", "TypeScript", "JavaScript", "SQL"],
   },
   {
-    title: "Enterprise software",
-    skills: ["Java 8–21", "Spring Boot", "Kafka", "React", "Angular", "Python"],
+    title: "Backend and data",
+    skills: ["Spring Boot", "REST APIs", "Microservices", "Apache Kafka", "FastAPI", "PostgreSQL", "MongoDB"],
   },
   {
-    title: "Delivery & trust",
-    skills: ["AWS", "GitHub Actions", "Docker", "Kubernetes", "OAuth 2.0/JWT", "Snyk"],
+    title: "Agentic AI",
+    skills: ["Claude Code", "Model Context Protocol", "LangGraph", "LangChain", "LLM tool calling", "RAG with FAISS"],
+  },
+  {
+    title: "Cloud and delivery",
+    skills: ["AWS", "Docker", "Kubernetes", "GitHub Actions", "Jenkins"],
+  },
+  {
+    title: "Security",
+    skills: ["OAuth 2.0", "OpenID Connect", "JWT", "Nginx njs", "Snyk"],
+  },
+  {
+    title: "Frontend",
+    skills: ["React", "Angular"],
   },
 ];
 
@@ -428,62 +488,187 @@ export interface EducationItem {
 
 export const educationData: EducationItem[] = [
   {
-    degree: "M.Tech Software Systems",
+    degree: "M.Tech, Software Systems",
     institution: "BITS Pilani",
-    period: "Jul 2020–Jul 2022",
+    period: "2020 to 2022",
   },
   {
-    degree: "B.Tech Mechanical Engineering",
+    degree: "B.Tech, Mechanical Engineering",
     institution: "Dr. A.P.J. Abdul Kalam Technical University",
-    period: "Jul 2013–Jul 2017",
+    period: "2013 to 2017",
   },
 ];
 
-export interface CertificationItem {
-  title: string;
-  provider: "Google" | "Nvidia" | "Anthropic" | "OpenAI" | "AWS" | "Oracle" | "GitHub";
+export type CertificationProvider = "Anthropic" | "OpenAI" | "Google" | "AWS" | "Oracle" | "GitHub";
+
+export interface CertificationGroup {
+  provider: CertificationProvider;
   providerFull: string;
+  titles: string[];
 }
 
-export const certificationsData: CertificationItem[] = [
+export const certificationsData: CertificationGroup[] = [
   {
-    title: "Certified Partner Specialist, Gemini Enterprise Agent Development",
-    provider: "Google",
-    providerFull: "Google",
-  },
-  {
-    title: "Nvidia Certified Gen AI LLM Associate",
-    provider: "Nvidia",
-    providerFull: "Nvidia",
-  },
-  {
-    title: "Claude Certified Architect",
     provider: "Anthropic",
     providerFull: "Anthropic",
+    titles: ["Claude Certified Architect, Professional", "Claude Certified Architect"],
   },
   {
-    title: "OpenAI Technical Practitioner",
     provider: "OpenAI",
     providerFull: "OpenAI",
+    titles: ["Technical Practitioner", "Codex Solutions Practitioner", "Cyber Solutions Practitioner"],
   },
   {
-    title: "Codex Solutions Practitioner",
-    provider: "OpenAI",
-    providerFull: "OpenAI",
+    provider: "Google",
+    providerFull: "Google",
+    titles: ["Certified Partner Specialist, Gemini Enterprise Agent Development"],
   },
   {
-    title: "AWS Certified Developer – Associate",
     provider: "AWS",
     providerFull: "Amazon Web Services",
+    titles: ["AWS Certified Developer, Associate"],
   },
   {
-    title: "Oracle Certified Associate, Java SE 8 Programmer",
     provider: "Oracle",
     providerFull: "Oracle",
+    titles: ["Oracle Certified Associate, Java SE 8 Programmer"],
   },
   {
-    title: "GitHub Actions Certification",
     provider: "GitHub",
     providerFull: "GitHub",
+    titles: ["GitHub Actions"],
   },
+];
+
+export const certificationCount = certificationsData.reduce((n, g) => n + g.titles.length, 0);
+
+export interface MigrationStage {
+  title: string;
+  detail: string;
+}
+
+/** The four agent stages of the Java migration system, in run order. */
+export const migrationStages: MigrationStage[] = [
+  { title: "Dependency analysis", detail: "Finds what the service depends on and what the upgrade touches." },
+  { title: "Refactoring", detail: "Rewrites old APIs and patterns in current Java." },
+  { title: "Build updates", detail: "Brings the build configuration up to the new version." },
+  { title: "Regression validation", detail: "Runs the tests to confirm the behaviour has not changed." },
+];
+
+/** The four beats of the opening story. Each is split where the two sides meet. */
+export const storyBeats: { left: string; right: string }[] = [
+  { left: "Every system", right: "has two sides." },
+  { left: "Most engineers", right: "pick one." },
+  { left: "I work across", right: "the line." },
+  { left: "I build", right: "both sides." },
+];
+
+/** Screenshots of the live projects, by project id. */
+export const projectShots: Record<string, string> = {
+  "fin-expert": "/assets/previews/fin-expert.jpg",
+  "email-assistant": "/assets/previews/email-assistant.jpg",
+  "content-blitz": "/assets/previews/content-blitz.jpg",
+};
+
+export interface BackSystem {
+  /** A short service-style name, shown in mono. */
+  name: string;
+  title: string;
+  detail: string;
+  where: string;
+  stack: string[];
+  /** The one crate the press stamps "legendary": gold tape, a glow and sparks. */
+  legendary?: boolean;
+}
+
+/** The back side: systems that run behind the screens. */
+export const backSystems: BackSystem[] = [
+  {
+    name: "trade-events",
+    title: "Event-driven trading data",
+    detail: "Decoupled microservices on Apache Kafka for derivatives trading data.",
+    where: "Publicis Sapient, for Wellington Management",
+    stack: ["Kafka", "Spring Boot", "AWS"],
+  },
+  {
+    name: "auth-gateway",
+    title: "One gateway for sign-in",
+    detail: "OAuth 2.0 and JWT across 8+ services behind one Nginx gateway. Cut over with zero downtime.",
+    where: "EPAM Systems",
+    stack: ["Nginx njs", "OAuth 2.0", "JWT"],
+  },
+  {
+    name: "java-migration",
+    title: "Java 8 to 21, run by agents",
+    detail: "Agents handle dependency analysis, refactoring, build updates and regression validation.",
+    where: "EPAM Systems",
+    stack: ["Claude Code", "MCP", "Java 21"],
+    legendary: true,
+  },
+  {
+    name: "ci-pipelines",
+    title: "Faster, safer delivery",
+    detail: "12+ pipelines on GitHub Actions, 18 minutes off each build. Snyk gates closed 40+ CVEs.",
+    where: "EPAM Systems",
+    stack: ["GitHub Actions", "Snyk"],
+  },
+  {
+    name: "health-monitor",
+    title: "Outages found sooner",
+    detail: "A live dashboard over 20+ services that cut the time to detect an outage by 60%.",
+    where: "Publicis Sapient, for Wellington Management",
+    stack: ["React", "CloudWatch"],
+  },
+  {
+    name: "onboarding-rules",
+    title: "Rules for regulated onboarding",
+    detail: "50+ field configurations and validation rules across 15+ jurisdictions on Fenergo.",
+    where: "Capgemini, for Mitsubishi UFJ Financial Group",
+    stack: ["Fenergo", "SQL"],
+  },
+];
+
+export interface WorkKind {
+  title: string;
+  detail: string;
+  stack: string[];
+  built: string[];
+}
+
+/** The kinds of work to bring. The chosen one pre-fills the email subject. */
+export const workKinds: WorkKind[] = [
+  {
+    title: "Agent systems",
+    detail: "Multi-agent workflows with loops that have a limit, answers that cite a source, and gates a person can read.",
+    stack: ["LangGraph", "Claude Code", "MCP", "RAG"],
+    built: ["Fin Expert", "Email Assistant", "Security Remediation Agent"],
+  },
+  {
+    title: "Java platforms",
+    detail: "Event-driven services for regulated work, built to stay up and easy to change.",
+    stack: ["Java 21", "Spring Boot", "Kafka", "AWS"],
+    built: ["Trading data services", "Six applications on AWS", "Java 8 to 21 migration"],
+  },
+  {
+    title: "Security and delivery",
+    detail: "Sign-in that holds, pipelines that are quick, and security checks that run on every change.",
+    stack: ["OAuth 2.0", "JWT", "GitHub Actions", "Snyk"],
+    built: ["Nginx JWT gateway", "12+ CI/CD pipelines", "40+ CVEs resolved"],
+  },
+  {
+    title: "Front ends",
+    detail: "Data-heavy screens in React and Angular that turn days of setup into hours.",
+    stack: ["React", "Angular", "TypeScript"],
+    built: ["Instrument setup framework", "Trade-finance screens", "Health dashboard"],
+  },
+];
+
+/** The page's sections, in order, for the side index. */
+export const pageSections = [
+  { id: "top", label: "Both sides" },
+  { id: "work", label: "The front" },
+  { id: "systems", label: "The back" },
+  { id: "profile", label: "Profile" },
+  { id: "choose", label: "Choose" },
+  { id: "contact", label: "Contact" },
 ];

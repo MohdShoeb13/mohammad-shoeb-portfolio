@@ -1,10 +1,30 @@
 @import 'tailwindcss';
 
+/*
+ * Two sides. Paper is the front: what people see. Night is the back: what keeps
+ * it running. Each side has one signal colour, cobalt for the front and amber for
+ * the back, and they only meet where the page talks about both.
+ *
+ * Three voices: wide Archivo capitals for headlines, IBM Plex Sans for reading,
+ * IBM Plex Mono for labels and data.
+ */
 @theme {
-  --color-cream: #e1e0cc;
-  --color-canvas: #080b12;
-  --color-accent: #86aeff;
-  --font-display: 'IBM Plex Sans', system-ui, sans-serif;
+  --color-paper: #f3f0e8;
+  --color-paper-deep: #e6e2d6;
+  --color-ink: #15130f;
+  --color-night: #0f1319;
+  --color-panel: #1b212b;
+  --color-front: #2447d6;
+  --color-back: #f2b04a;
+  --color-cream: #f3f0e8;
+  --color-cobalt: #2447d6;
+  /* Factory ink: the press head, the crate tape and the stamp. */
+  --color-stamp: #e2412d;
+  --color-stamp-ink: #b32e1d;
+  --color-gold: #c98a12;
+  --color-steel: #3a4352;
+  --font-display: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 }
 
@@ -15,54 +35,401 @@
 
   body {
     margin: 0;
-    background: var(--color-canvas);
-    color: var(--color-cream);
-    font-family: var(--font-display);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
 }
 
-/* Noise texture overlay */
-.noise-overlay {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+/* In the components layer, so a utility such as normal-case can still override them. */
+@layer components {
+  /* Headlines: wide, heavy capitals with tight leading. */
+  .display,
+  .statement {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 125%;
+    text-transform: uppercase;
+    letter-spacing: -0.012em;
+    line-height: 0.96;
+    text-wrap: balance;
+  }
+
+  /* Small mono labels: section numbers, stats, tags. */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
 }
 
-/* Marquee infinite scroll animation */
-@keyframes ticker {
+/* A faint grain so paper reads as stock, not a flat fill. */
+.paper-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.45;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.52 0 0 0 0 0.42 0 0 0 0.14 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23p)'/%3E%3C/svg%3E");
+}
+
+/* Paper columns: the thin vertical rules behind the front side. */
+.paper-columns {
+  background-image: linear-gradient(to right, rgba(21, 19, 15, 0.06) 1px, transparent 1px);
+  background-size: 150px 100%;
+}
+
+/* Night dots: the grid behind the back side. */
+.night-dots {
+  background-image: radial-gradient(rgba(242, 176, 74, 0.22) 1px, transparent 1.5px);
+  background-size: 106px 106px;
+}
+
+/*
+ * The cover's middle stage: a warm glow rising from the floor, under a faint amber
+ * grid. Both are sized to the screen, not the panel, so the panel opening in the
+ * middle reveals a fixed scene rather than stretching one.
+ */
+.stage {
+  background-color: #0d0a09;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(242, 176, 74, 0.42) 0 1px, transparent 1.5px),
+    radial-gradient(60% 75% at 50% 85%, #3a120c 0, #0d0a09 72%);
+  background-size:
+    7vw 7vw,
+    100vw 100%;
+  background-position: center;
+}
+
+/*
+ * The back-side scene. Lights blink on and off, as real ones do; everything else
+ * glides, slowly, and never stops.
+ */
+@keyframes scene-blink {
+  0%,
+  55% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0.15;
+  }
+}
+
+.scene-led {
+  animation: scene-blink 1.6s steps(1) infinite;
+}
+
+.scene-caret {
+  animation: scene-blink 1s steps(1) infinite;
+}
+
+/* Light running down a wire: a short dash travelling the path's length. */
+@keyframes scene-pulse {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.scene-pulse {
+  animation: scene-pulse 3.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+/* A message riding the stream: in from the rack, out into the database. */
+@keyframes scene-stream {
   0% {
     transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-ticker {
-  animation: ticker 32s linear infinite;
-}
-
-.animate-ticker:hover {
-  animation-play-state: paused;
-}
-
-/* A pulse running down an architecture connector on the active project card */
-@keyframes flow-pulse {
-  0% {
-    transform: translateY(-8px);
     opacity: 0;
   }
-  30% {
+  12%,
+  88% {
     opacity: 1;
   }
   100% {
-    transform: translateY(20px);
+    transform: translateX(104px);
     opacity: 0;
   }
 }
 
-.flow-pulse {
-  animation: flow-pulse 1.6s ease-in-out infinite;
+.scene-stream {
+  animation: scene-stream 4.8s linear infinite;
+}
+
+@keyframes scene-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2.5px);
+  }
+}
+
+.scene-bob {
+  animation: scene-bob 3.6s ease-in-out infinite;
+}
+
+/* A ring widening off the Kafka broker, like a signal going out. */
+@keyframes scene-ring {
+  from {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.scene-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: scene-ring 2.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@keyframes scene-breathe {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.scene-breathe {
+  animation: scene-breathe 4.2s ease-in-out infinite;
+}
+
+/* Stars on the night side. */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.twinkle {
+  animation: twinkle 5s ease-in-out infinite;
+}
+
+/* The terminal cursor. */
+@keyframes caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.caret {
+  animation: caret 1.1s steps(1) infinite;
+}
+
+/* Rack lights. */
+@keyframes led {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.led {
+  animation: led 2.4s ease-in-out infinite;
+}
+
+/* The lane markings down the middle of the road. */
+.road-lane {
+  background-image: linear-gradient(to right, var(--color-paper) 0 44px, transparent 44px 80px);
+  background-size: 80px 100%;
+}
+
+/*
+ * A crate on the belt. It arrives as a raw box, dashed and dark. When the press
+ * comes down on it, the box gives way to a labelled card and a stamp slams on.
+ * `data-done` is set by the belt, so scrolling back un-stamps it.
+ */
+.crate {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--crate);
+  height: var(--crate-h);
+}
+
+.crate-raw,
+.crate-card {
+  position: absolute;
+  inset: 0;
+  transition:
+    opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.crate-raw {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 0.7rem;
+  border: 2px dashed var(--color-back);
+  background: var(--color-night);
+  color: var(--color-back);
+}
+
+.crate[data-done='true'] .crate-raw {
+  opacity: 0;
+  transform: scale(1.08);
+}
+
+.crate-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  box-shadow: 0 22px 34px -20px rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.crate[data-done='true'] .crate-card {
+  opacity: 1;
+  transform: none;
+}
+
+.crate-tape {
+  flex: 0 0 auto;
+  height: 11%;
+  background: repeating-linear-gradient(-45deg, var(--color-stamp) 0 10px, var(--color-stamp-ink) 10px 20px);
+}
+
+.crate-stamp {
+  position: absolute;
+  top: 15%;
+  right: 6%;
+  border: 2px solid var(--color-stamp);
+  padding: 0.25rem 0.45rem;
+  color: var(--color-stamp);
+  rotate: -12deg;
+  scale: 1.7;
+  opacity: 0;
+  transition:
+    opacity 0.2s 0.1s,
+    scale 0.35s cubic-bezier(0.2, 1.6, 0.4, 1) 0.1s;
+}
+
+.crate[data-done='true'] .crate-stamp {
+  opacity: 0.9;
+  scale: 1;
+}
+
+.crate[data-legendary='true'] .crate-tape {
+  background: repeating-linear-gradient(-45deg, var(--color-back) 0 10px, var(--color-gold) 10px 20px);
+}
+
+.crate[data-legendary='true'] .crate-stamp {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+.crate[data-legendary='true'][data-done='true'] .crate-card {
+  box-shadow:
+    0 0 0 2px var(--color-back),
+    0 0 34px rgba(242, 176, 74, 0.55),
+    0 22px 34px -20px rgba(0, 0, 0, 0.8);
+}
+
+/* The belt's rollers spin in place; the gantry is a ribbed steel beam. */
+.belt-roller {
+  position: relative;
+  flex: 0 0 auto;
+  aspect-ratio: 1;
+  border: 2px solid var(--color-steel);
+  border-radius: 50%;
+  background: #151b23;
+}
+
+.belt-roller::after,
+.press-wheel::after {
+  content: '';
+  position: absolute;
+  top: 12%;
+  bottom: 12%;
+  left: 50%;
+  width: 2px;
+  translate: -50%;
+  background: var(--color-steel);
+}
+
+.press-wheel {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 1;
+  border: 2px solid var(--color-steel);
+  border-radius: 50%;
+  background: #151b23;
+}
+
+.gantry {
+  border-top: 3px solid var(--color-steel);
+  background: repeating-linear-gradient(90deg, #1b212b 0 46px, #151b23 46px 50px);
+}
+
+/* Sparks off the legendary stamp. */
+.spark {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 1px;
+  background: var(--color-back);
+  pointer-events: none;
+}
+
+.hazard {
+  background-color: #151b23;
+  background-image: repeating-linear-gradient(-45deg, var(--color-back) 0 9px, transparent 9px 22px);
+}
+
+/* Smoke from the chimneys: rises, grows and fades. */
+@keyframes smoke {
+  0% {
+    transform: translate(-50%, 0) scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-30%, -9svh) scale(2.2);
+    opacity: 0;
+  }
+}
+
+.smoke {
+  animation: smoke 4.2s ease-out infinite;
+}
+
+/*
+ * A sideways row the visitor swipes (only with reduced motion). It keeps a thin,
+ * visible scrollbar: a hidden one left the row looking like it could not move.
+ */
+.swipe-row {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-back) transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -70,18 +437,35 @@
     scroll-behavior: auto;
   }
 
-  .animate-ticker {
-    animation-play-state: paused;
+  .caret,
+  .led {
+    animation: none;
   }
 
-  .flow-pulse {
+  .crate-raw,
+  .crate-card,
+  .crate-stamp {
+    transition: none;
+  }
+
+  .scene-led,
+  .scene-caret,
+  .scene-stream,
+  .scene-bob,
+  .scene-breathe,
+  .twinkle {
+    animation: none;
+  }
+
+  .scene-pulse,
+  .scene-ring {
     animation: none;
     opacity: 0;
   }
-}
 
-@media (min-width: 768px) {
-  .md-dynamic-span {
-    grid-column: span var(--pane-span, 6) / span var(--pane-span, 6);
+  .smoke {
+    animation: none;
+    opacity: 0.5;
+    transform: translate(-50%, -6px);
   }
 }
