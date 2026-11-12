@@ -554,3 +554,121 @@ export const migrationStages: MigrationStage[] = [
   { title: "Build updates", detail: "Brings the build configuration up to the new version." },
   { title: "Regression validation", detail: "Runs the tests to confirm the behaviour has not changed." },
 ];
+
+/** The four beats of the opening story. Each is split where the two sides meet. */
+export const storyBeats: { left: string; right: string }[] = [
+  { left: "Every system", right: "has two sides." },
+  { left: "Most engineers", right: "pick one." },
+  { left: "I work across", right: "the line." },
+  { left: "I build", right: "both sides." },
+];
+
+/** Screenshots of the live projects, by project id. */
+export const projectShots: Record<string, string> = {
+  "fin-expert": "/assets/previews/fin-expert.jpg",
+  "email-assistant": "/assets/previews/email-assistant.jpg",
+  "content-blitz": "/assets/previews/content-blitz.jpg",
+};
+
+export interface BackSystem {
+  /** A short service-style name, shown in mono. */
+  name: string;
+  title: string;
+  detail: string;
+  where: string;
+  stack: string[];
+  /** The one crate the press stamps "legendary": gold tape, a glow and sparks. */
+  legendary?: boolean;
+}
+
+/** The back side: systems that run behind the screens. */
+export const backSystems: BackSystem[] = [
+  {
+    name: "trade-events",
+    title: "Event-driven trading data",
+    detail: "Decoupled microservices on Apache Kafka for derivatives trading data.",
+    where: "Publicis Sapient, for Wellington Management",
+    stack: ["Kafka", "Spring Boot", "AWS"],
+  },
+  {
+    name: "auth-gateway",
+    title: "One gateway for sign-in",
+    detail: "OAuth 2.0 and JWT across 8+ services behind one Nginx gateway. Cut over with zero downtime.",
+    where: "EPAM Systems",
+    stack: ["Nginx njs", "OAuth 2.0", "JWT"],
+  },
+  {
+    name: "java-migration",
+    title: "Java 8 to 21, run by agents",
+    detail: "Agents handle dependency analysis, refactoring, build updates and regression validation.",
+    where: "EPAM Systems",
+    stack: ["Claude Code", "MCP", "Java 21"],
+    legendary: true,
+  },
+  {
+    name: "ci-pipelines",
+    title: "Faster, safer delivery",
+    detail: "12+ pipelines on GitHub Actions, 18 minutes off each build. Snyk gates closed 40+ CVEs.",
+    where: "EPAM Systems",
+    stack: ["GitHub Actions", "Snyk"],
+  },
+  {
+    name: "health-monitor",
+    title: "Outages found sooner",
+    detail: "A live dashboard over 20+ services that cut the time to detect an outage by 60%.",
+    where: "Publicis Sapient, for Wellington Management",
+    stack: ["React", "CloudWatch"],
+  },
+  {
+    name: "onboarding-rules",
+    title: "Rules for regulated onboarding",
+    detail: "50+ field configurations and validation rules across 15+ jurisdictions on Fenergo.",
+    where: "Capgemini, for Mitsubishi UFJ Financial Group",
+    stack: ["Fenergo", "SQL"],
+  },
+];
+
+export interface WorkKind {
+  title: string;
+  detail: string;
+  stack: string[];
+  built: string[];
+}
+
+/** The kinds of work to bring. The chosen one pre-fills the email subject. */
+export const workKinds: WorkKind[] = [
+  {
+    title: "Agent systems",
+    detail: "Multi-agent workflows with loops that have a limit, answers that cite a source, and gates a person can read.",
+    stack: ["LangGraph", "Claude Code", "MCP", "RAG"],
+    built: ["Fin Expert", "Email Assistant", "Security Remediation Agent"],
+  },
+  {
+    title: "Java platforms",
+    detail: "Event-driven services for regulated work, built to stay up and easy to change.",
+    stack: ["Java 21", "Spring Boot", "Kafka", "AWS"],
+    built: ["Trading data services", "Six applications on AWS", "Java 8 to 21 migration"],
+  },
+  {
+    title: "Security and delivery",
+    detail: "Sign-in that holds, pipelines that are quick, and security checks that run on every change.",
+    stack: ["OAuth 2.0", "JWT", "GitHub Actions", "Snyk"],
+    built: ["Nginx JWT gateway", "12+ CI/CD pipelines", "40+ CVEs resolved"],
+  },
+  {
+    title: "Front ends",
+    detail: "Data-heavy screens in React and Angular that turn days of setup into hours.",
+    stack: ["React", "Angular", "TypeScript"],
+    built: ["Instrument setup framework", "Trade-finance screens", "Health dashboard"],
+  },
+];
+
+/** The page's sections, in order, for the side index. */
+export const pageSections = [
+  { id: "top", label: "Both sides" },
+  { id: "work", label: "The front" },
+  { id: "systems", label: "The back" },
+  { id: "profile", label: "Profile" },
+  { id: "choose", label: "Choose" },
+  { id: "contact", label: "Contact" },
+];

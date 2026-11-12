@@ -64,7 +64,13 @@ export const ExpertiseSection = () => {
                   className="grid grid-cols-12 gap-4 border-t border-ink/25 py-5"
                 >
                   <div className="col-span-12 flex items-center gap-2.5 text-ink sm:col-span-4">
-                    <ProviderIcon provider={group.provider} className="h-4 w-4 shrink-0" />
+                    {/* A fixed slot, so the names line up whatever the logo's shape; the AWS wordmark is wide */}
+                    <span className="flex w-8 shrink-0 items-center">
+                      <ProviderIcon
+                        provider={group.provider}
+                        className={group.provider === "AWS" ? "h-5 w-8" : "h-4 w-4"}
+                      />
+                    </span>
                     <span className="text-base font-semibold">{group.providerFull}</span>
                   </div>
                   <ul className="col-span-12 m-0 list-none space-y-1.5 p-0 text-base leading-snug text-ink/85 sm:col-span-8">

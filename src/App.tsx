@@ -1,52 +1,53 @@
-import { SiteNav } from "@/components/site-nav";
-import { PrismaHero } from "@/components/ui/prisma-hero";
-import { IntroSection } from "@/components/intro-section";
-import { ProjectsSection } from "@/components/projects-section";
-import { MigrationSection } from "@/components/migration-section";
+import { Header, Loader, SideIndex } from "@/components/two-sides/chrome";
+import { IntroStory } from "@/components/two-sides/story";
+import {
+  BackSection,
+  ChooseSection,
+  FinaleSection,
+  FrontSection,
+  ProfileSection,
+  SiteFooter,
+} from "@/components/two-sides/sections";
 import { ExperienceSection } from "@/components/experience-section";
-import { SecondaryWorkSection } from "@/components/secondary-work";
 import { ExpertiseSection } from "@/components/expertise-section";
-import { ContactSection } from "@/components/contact-section";
-import { Footer } from "@/components/footer";
 
 /*
- * The page travels through two grounds. Night holds the live systems: hero, work,
- * method. Paper holds the record: outcomes, roles, toolkit. Night returns for contact.
+ * A page with two sides. Paper is the front, what people see. Night is the back,
+ * what keeps it running. The story at the top sets that up, and every section
+ * after it belongs to one side or stands on the line between them.
  */
 export default function App() {
   return (
-    <div id="top" className="relative min-h-screen w-full bg-canvas text-cream selection:bg-accent/30 selection:text-white">
-      {/* Fixed navigation, scroll progress and skip link */}
-      <SiteNav />
+    <div className="relative min-h-screen w-full bg-paper text-ink selection:bg-front/25">
+      <Loader />
+      <Header />
+      <SideIndex />
 
-      {/* 1. Hero: video, loose 3D agent network, name */}
-      <PrismaHero />
+      <main id="main" tabIndex={-1} className="relative w-full outline-none">
+        {/* 01. The story: every system has two sides */}
+        <IntroStory />
 
-      <main id="main" tabIndex={-1} className="relative z-10 w-full outline-none">
-        {/* 2. Opening statement, quick facts and the technology ribbon */}
-        <IntroSection />
+        {/* 02. The front: projects, as a row of screens */}
+        <FrontSection />
 
-        {/* 3. Featured work and the 3D architecture graph */}
-        <ProjectsSection />
+        {/* 03. The back: the systems behind them */}
+        <BackSection />
 
-        {/* 4. How the Java migration system works */}
-        <MigrationSection />
-
-        {/* 5. Two smaller builds */}
-        <SecondaryWorkSection />
-
-        {/* 6 and 7. The record, on paper: a sheet inset like the hero stage */}
-        <div className="paper-grain relative mx-2.5 rounded-2xl bg-paper text-ink selection:bg-cobalt/20 selection:text-ink sm:mx-3 md:mx-4 md:rounded-[2rem]">
+        {/* 04. Who builds both, then the record on paper */}
+        <ProfileSection />
+        <div className="paper-grain relative bg-paper text-ink">
           <ExperienceSection />
           <ExpertiseSection />
         </div>
 
-        {/* 8. Contact and the terminal */}
-        <ContactSection />
+        {/* 05. Pick a kind of work */}
+        <ChooseSection />
+
+        {/* 06. Both sides, and how to get in touch */}
+        <FinaleSection />
       </main>
 
-      {/* 9. Footer */}
-      <Footer />
+      <SiteFooter />
     </div>
   );
 }
